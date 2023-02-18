@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "animeQuotes",
+    "slug": "animeQuotes",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "animeQuotes"
+}
