@@ -1,21 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Stack from "./Navigation/Stack";
+import React, { useEffect, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import mobileAds from "react-native-google-mobile-ads";
+import SplashScreen from "react-native-splash-screen";
+import * as Font from "expo-font";
 
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
+  useEffect(() => {
+    async function prepare() {
+      try {
+        mobileAds()
+          .initialize()
+          .then((adapterStatuses) => {
+            // Initialization complete!
+          });
+        await Font.loadAsync(
+          "Cafe24Shiningstar",
+          require("./Assets/Fonts/Cafe24Shiningstar.ttf")
+        );
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+        SplashScreen.hide();
+      }
+    }
+
+    prepare();
+  }, []);
+  if (!appIsReady) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
